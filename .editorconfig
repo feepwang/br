@@ -9,3 +9,8 @@ end_of_line = lf
 trim_trailing_whitespace = true
 insert_final_newline = true
 
+# Go
+[*.go]
+indent_style = tab
+indent_indent = 4
+
