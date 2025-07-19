@@ -12,7 +12,6 @@ import (
 
 type Interface[K cmp.Ordered, V any] interface {
 	Len() int
-	Cap() int
 	Get(key K) (V, bool)
 	GetMutable(key K) (*V, bool)
 	Set(key K, value V)
