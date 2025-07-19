@@ -44,6 +44,11 @@ func (t *RedBlackTree[K, V]) Len() int {
 	return t.size
 }
 
+// Cap returns the capacity of the map. For Red-Black Tree, capacity equals size since it's dynamic.
+func (t *RedBlackTree[K, V]) Cap() int {
+	return t.size
+}
+
 // Get searches for a key and returns its value and existence.
 func (t *RedBlackTree[K, V]) Get(key K) (V, bool) {
 	n := t.root
@@ -217,9 +222,117 @@ func (t *RedBlackTree[K, V]) Delete(key K) bool {
 // deleteNode removes a node and fixes Red-Black properties.
 func deleteNode[K cmp.Ordered, V any](t *RedBlackTree[K, V], z *rbNode[K, V]) {
 	// Standard BST delete, then fixup for Red-Black properties
-	// For brevity, this is a simplified version. Full implementation is more complex.
 	// Key place: For beginners, see Red-Black Tree delete algorithm for details.
-	// ...implementation omitted for brevity...
+	
+	var y, x *rbNode[K, V]
+	
+	// Find the node to actually delete (y) and its replacement (x)
+	if z.left == nil || z.right == nil {
+		y = z // z has at most one child
+	} else {
+		// z has two children, find successor
+		y = z.right
+		for y.left != nil {
+			y = y.left
+		}
+	}
+	
+	// Set x to y's child (or nil if y has no children)
+	if y.left != nil {
+		x = y.left
+	} else {
+		x = y.right
+	}
+	
+	// Link x to y's parent
+	if x != nil {
+		x.parent = y.parent
+	}
+	
+	if y.parent == nil {
+		t.root = x
+	} else if y == y.parent.left {
+		y.parent.left = x
+	} else {
+		y.parent.right = x
+	}
+	
+	// If y is not the node to delete, copy y's data to z
+	if y != z {
+		z.key = y.key
+		z.value = y.value
+	}
+	
+	// Fix Red-Black properties if a black node was deleted
+	if y.color == black && x != nil {
+		fixDelete(t, x)
+	}
+}
+
+// fixDelete restores Red-Black Tree properties after deletion.
+func fixDelete[K cmp.Ordered, V any](t *RedBlackTree[K, V], x *rbNode[K, V]) {
+	for x != t.root && x.color == black {
+		if x == x.parent.left {
+			w := x.parent.right // sibling
+			if w.color == red {
+				w.color = black
+				x.parent.color = red
+				rotateLeft(t, x.parent)
+				w = x.parent.right
+			}
+			if (w.left == nil || w.left.color == black) && 
+			   (w.right == nil || w.right.color == black) {
+				w.color = red
+				x = x.parent
+			} else {
+				if w.right == nil || w.right.color == black {
+					if w.left != nil {
+						w.left.color = black
+					}
+					w.color = red
+					rotateRight(t, w)
+					w = x.parent.right
+				}
+				w.color = x.parent.color
+				x.parent.color = black
+				if w.right != nil {
+					w.right.color = black
+				}
+				rotateLeft(t, x.parent)
+				x = t.root
+			}
+		} else {
+			w := x.parent.left // sibling
+			if w.color == red {
+				w.color = black
+				x.parent.color = red
+				rotateRight(t, x.parent)
+				w = x.parent.left
+			}
+			if (w.right == nil || w.right.color == black) && 
+			   (w.left == nil || w.left.color == black) {
+				w.color = red
+				x = x.parent
+			} else {
+				if w.left == nil || w.left.color == black {
+					if w.right != nil {
+						w.right.color = black
+					}
+					w.color = red
+					rotateLeft(t, w)
+					w = x.parent.left
+				}
+				w.color = x.parent.color
+				x.parent.color = black
+				if w.left != nil {
+					w.left.color = black
+				}
+				rotateRight(t, x.parent)
+				x = t.root
+			}
+		}
+	}
+	x.color = black
 }
 
 // Keys returns all keys in order.
