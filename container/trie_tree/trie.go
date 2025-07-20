@@ -96,7 +96,7 @@ func (t *Trie) Delete(word string) bool {
 // deleteHelper is a recursive helper function for deletion.
 func (t *Trie) deleteHelper(node *trieNode, word string, index int) bool {
 	chars := []rune(word)
-	
+
 	if index == len(chars) {
 		// We've reached the end of the word
 		if !node.isEnd {
@@ -147,7 +147,7 @@ func (t *Trie) GetAllWords() []string {
 // in lexicographical order.
 func (t *Trie) GetWordsWithPrefix(prefix string) []string {
 	var words []string
-	
+
 	if prefix == "" {
 		return t.GetAllWords()
 	}
@@ -159,7 +159,7 @@ func (t *Trie) GetWordsWithPrefix(prefix string) []string {
 
 	// Collect all words that start with the prefix
 	t.collectWords(prefixNode, prefix, &words)
-	
+
 	return words
 }
 
