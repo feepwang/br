@@ -5,6 +5,7 @@ import (
 
 	"github.com/feepwang/br/container/ordered_map"
 	"github.com/feepwang/br/container/pair"
+	"github.com/feepwang/br/container/trie_tree"
 )
 
 func main() {
@@ -51,6 +52,56 @@ func main() {
 	fmt.Println("   Key-Value pairs:")
 	for _, p := range tree.Pairs() {
 		fmt.Printf("     %d -> %s\n", p.First, p.Second)
+	}
+	
+	// Demonstrate Trie Tree usage
+	fmt.Println("\n3. Trie Tree Demo:")
+	
+	trie := trie_tree.NewTrie()
+	
+	// Insert some words
+	words := []string{"apple", "app", "application", "apply", "banana", "band", "bandana"}
+	fmt.Println("   Inserting words...")
+	for _, word := range words {
+		trie.Insert(word)
+	}
+	
+	fmt.Printf("   Trie size: %d\n", trie.Len())
+	
+	// Demonstrate search
+	searchWords := []string{"app", "apple", "apply", "orange"}
+	fmt.Println("   Search results:")
+	for _, word := range searchWords {
+		exists := trie.Search(word)
+		fmt.Printf("     '%s' exists: %t\n", word, exists)
+	}
+	
+	// Demonstrate prefix search
+	prefixes := []string{"app", "ban", "xyz"}
+	fmt.Println("   Prefix search results:")
+	for _, prefix := range prefixes {
+		hasPrefix := trie.StartsWith(prefix)
+		fmt.Printf("     Words starting with '%s': %t\n", prefix, hasPrefix)
+	}
+	
+	// Demonstrate getting words with prefix
+	fmt.Println("   Words starting with 'app':")
+	appWords := trie.GetWordsWithPrefix("app")
+	for _, word := range appWords {
+		fmt.Printf("     %s\n", word)
+	}
+	
+	// Demonstrate deletion
+	fmt.Println("   Deleting 'application'...")
+	deleted := trie.Delete("application")
+	fmt.Printf("   Deletion successful: %t\n", deleted)
+	fmt.Printf("   Trie size after deletion: %d\n", trie.Len())
+	
+	// Show all remaining words
+	fmt.Println("   All remaining words:")
+	allWords := trie.GetAllWords()
+	for _, word := range allWords {
+		fmt.Printf("     %s\n", word)
 	}
 	
 	fmt.Println("\nDemo completed successfully!")
