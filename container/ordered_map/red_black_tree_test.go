@@ -109,7 +109,7 @@ func TestRedBlackTreeUpdate(t *testing.T) {
 
 func TestRedBlackTreeDelete(t *testing.T) {
 	tree := NewRedBlackTree[int, string]()
-	
+
 	// Insert some values
 	tree.Set(5, "five")
 	tree.Set(3, "three")
@@ -147,7 +147,7 @@ func TestRedBlackTreeDelete(t *testing.T) {
 
 func TestRedBlackTreeKeysValuesOrder(t *testing.T) {
 	tree := NewRedBlackTree[int, string]()
-	
+
 	// Insert in random order
 	tree.Set(5, "five")
 	tree.Set(2, "two")
@@ -198,7 +198,7 @@ func TestRedBlackTreePairs(t *testing.T) {
 	}
 	for i, p := range pairs {
 		if p.First != expected[i].First || p.Second != expected[i].Second {
-			t.Errorf("At index %d, expected (%d, %s), got (%d, %s)", 
+			t.Errorf("At index %d, expected (%d, %s), got (%d, %s)",
 				i, expected[i].First, expected[i].Second, p.First, p.Second)
 		}
 	}

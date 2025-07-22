@@ -42,7 +42,7 @@ func NewSkipList[K cmp.Ordered, V any]() Interface[K, V] {
 	header := &node[K, V]{
 		forward: make([]*node[K, V], maxLevel),
 	}
-	
+
 	return &SkipList[K, V]{
 		header: header,
 		level:  0,
