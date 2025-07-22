@@ -32,11 +32,11 @@ type node[K comparable, V any] struct {
 
 // SkipList is a concrete implementation of the Interface.
 type SkipList[K comparable, V any] struct {
-	header  *node[K, V]        // Header node (sentinel)
-	level   int                // Current maximum level of the list
-	length  int                // Number of elements in the list
-	rng     *rand.Rand         // Random number generator for level assignment
-	compare func(a, b K) int   // Comparison function for keys
+	header  *node[K, V]      // Header node (sentinel)
+	level   int              // Current maximum level of the list
+	length  int              // Number of elements in the list
+	rng     *rand.Rand       // Random number generator for level assignment
+	compare func(a, b K) int // Comparison function for keys
 }
 
 // NewSkipList creates and returns a new empty skip list.
@@ -44,7 +44,7 @@ func NewSkipList[K comparable, V any](compare func(a, b K) int) Interface[K, V] 
 	header := &node[K, V]{
 		forward: make([]*node[K, V], maxLevel),
 	}
-	
+
 	return &SkipList[K, V]{
 		header:  header,
 		level:   0,

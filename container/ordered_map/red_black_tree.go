@@ -223,9 +223,9 @@ func (t *RedBlackTree[K, V]) Delete(key K) bool {
 func deleteNode[K cmp.Ordered, V any](t *RedBlackTree[K, V], z *rbNode[K, V]) {
 	// Standard BST delete, then fixup for Red-Black properties
 	// Key place: For beginners, see Red-Black Tree delete algorithm for details.
-	
+
 	var y, x *rbNode[K, V]
-	
+
 	// Find the node to actually delete (y) and its replacement (x)
 	if z.left == nil || z.right == nil {
 		y = z // z has at most one child
@@ -236,19 +236,19 @@ func deleteNode[K cmp.Ordered, V any](t *RedBlackTree[K, V], z *rbNode[K, V]) {
 			y = y.left
 		}
 	}
-	
+
 	// Set x to y's child (or nil if y has no children)
 	if y.left != nil {
 		x = y.left
 	} else {
 		x = y.right
 	}
-	
+
 	// Link x to y's parent
 	if x != nil {
 		x.parent = y.parent
 	}
-	
+
 	if y.parent == nil {
 		t.root = x
 	} else if y == y.parent.left {
@@ -256,13 +256,13 @@ func deleteNode[K cmp.Ordered, V any](t *RedBlackTree[K, V], z *rbNode[K, V]) {
 	} else {
 		y.parent.right = x
 	}
-	
+
 	// If y is not the node to delete, copy y's data to z
 	if y != z {
 		z.key = y.key
 		z.value = y.value
 	}
-	
+
 	// Fix Red-Black properties if a black node was deleted
 	if y.color == black && x != nil {
 		fixDelete(t, x)
@@ -280,8 +280,8 @@ func fixDelete[K cmp.Ordered, V any](t *RedBlackTree[K, V], x *rbNode[K, V]) {
 				rotateLeft(t, x.parent)
 				w = x.parent.right
 			}
-			if (w.left == nil || w.left.color == black) && 
-			   (w.right == nil || w.right.color == black) {
+			if (w.left == nil || w.left.color == black) &&
+				(w.right == nil || w.right.color == black) {
 				w.color = red
 				x = x.parent
 			} else {
@@ -309,8 +309,8 @@ func fixDelete[K cmp.Ordered, V any](t *RedBlackTree[K, V], x *rbNode[K, V]) {
 				rotateRight(t, x.parent)
 				w = x.parent.left
 			}
-			if (w.right == nil || w.right.color == black) && 
-			   (w.left == nil || w.left.color == black) {
+			if (w.right == nil || w.right.color == black) &&
+				(w.left == nil || w.left.color == black) {
 				w.color = red
 				x = x.parent
 			} else {

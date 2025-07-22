@@ -50,16 +50,16 @@ func inOrderKeysIterative[K cmp.Ordered, V any](root *rbNode[K, V], yield func(K
 			stack = append(stack, current)
 			current = current.left
 		}
-		
+
 		// Current must be nil at this point
 		current = stack[len(stack)-1]
 		stack = stack[:len(stack)-1]
-		
+
 		// Yield the key
 		if !yield(current.key) {
 			return
 		}
-		
+
 		// Visit the right subtree
 		current = current.right
 	}
@@ -80,16 +80,16 @@ func inOrderValuesIterative[K cmp.Ordered, V any](root *rbNode[K, V], yield func
 			stack = append(stack, current)
 			current = current.left
 		}
-		
+
 		// Current must be nil at this point
 		current = stack[len(stack)-1]
 		stack = stack[:len(stack)-1]
-		
+
 		// Yield the value
 		if !yield(current.value) {
 			return
 		}
-		
+
 		// Visit the right subtree
 		current = current.right
 	}
@@ -110,16 +110,16 @@ func inOrderPairsIterative[K cmp.Ordered, V any](root *rbNode[K, V], yield func(
 			stack = append(stack, current)
 			current = current.left
 		}
-		
+
 		// Current must be nil at this point
 		current = stack[len(stack)-1]
 		stack = stack[:len(stack)-1]
-		
+
 		// Yield the key-value pair
 		if !yield(current.key, current.value) {
 			return
 		}
-		
+
 		// Visit the right subtree
 		current = current.right
 	}
