@@ -13,9 +13,15 @@ recording them in this repository.
 
 - Data Structure
 
-  - [ ] Red-Black Tree
-
-  - [ ] Trie Tree
+  - [x] Red-Black Tree
+  
+  - [x] Trie Tree
+  
+  - [x] Skip List
+  
+  - [x] Disjoint Set Union (DSU)
+  
+  - [x] Bloom Filter
 
 - Algorithms
 
